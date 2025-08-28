@@ -1,0 +1,30 @@
+{
+   "schemaVersion": 2,
+   "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+   "config": {
+      "mediaType": "application/vnd.docker.container.image.v1+json",
+      "size": 3521,
+      "digest": "sha256:a6b7c8d9e0f1a2b3c4d5e6f789abcdef0123456789abcdef0123456789abcdef"
+   },
+   "layers": [
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 31735967,
+         "digest": "sha256:1a2b3c4d5e6f789abcdef0123456789abcdef0123456789abcdef0123456789ab"
+      },
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 25600000,
+         "digest": "sha256:2b3c4d5e6f789abcdef0123456789abcdef0123456789abcdef0123456789abcd"
+      },
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 601,
+         "digest": "sha256:3c4d5e6f789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      }
+   ],
+   "annotations": {
+      "org.opencontainers.image.source": "https://github.com/nginxinc/docker-nginx",
+      "org.opencontainers.image.revision": "ghi789"
+   }
+}

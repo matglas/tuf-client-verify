@@ -1,0 +1,20 @@
+{
+   "schemaVersion": 2,
+   "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+   "config": {
+      "mediaType": "application/vnd.docker.container.image.v1+json",
+      "size": 1469,
+      "digest": "sha256:c5b1261d6d3e43071626931fc004f70149baeba2c8ec672bd4f27761f8e1ad6b"
+   },
+   "layers": [
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 3584077,
+         "digest": "sha256:4abcf20661432fb2d719aaf90656f55c287f8ca915dc1c92ec14dd287f6c95d0"
+      }
+   ],
+   "annotations": {
+      "org.opencontainers.image.source": "https://github.com/alpinelinux/docker-alpine",
+      "org.opencontainers.image.revision": "abc123"
+   }
+}

@@ -12,6 +12,8 @@ RUN go mod download
 
 # Copy source code
 COPY cmd/ ./cmd/
+COPY internal/ ./internal/
+COPY testdata/ ./testdata/
 
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o tuf-client-verify ./cmd/tuf-client-verify
@@ -26,6 +28,9 @@ WORKDIR /root/
 
 # Copy the binary from builder stage
 COPY --from=builder /app/tuf-client-verify .
+
+# Copy the TUF repository data
+COPY --from=builder /app/testdata ./testdata
 
 # Expose port
 EXPOSE 8080

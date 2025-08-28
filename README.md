@@ -2,32 +2,41 @@
 
 A service that acts as a TUF client to verify access requests against a predefined TUF repository with embedded root of trust. This service is designed to be used as an auth callback by reverse proxies like nginx to authorize access to specific endpoints.
 
-## Current Status: Phase 1 MVP ✅ COMPLETED
+## Current Status: Phase 2 Complete ✅
 
-This is currently a **Proof of Concept** that has successfully completed Phase 1 implementation.
+This is a **Proof of Concept** that has successfully completed Phase 2 implementation with full TUF delegation-based verification.
 
-### ✅ Phase 1 Completed Features
+### ✅ Phase 2 Completed Features
 
-- ✅ Basic HTTP server with `/auth` endpoint
-- ✅ Static HTTP 200 responses (always allow for testing)
-- ✅ nginx auth_request configuration
-- ✅ Mock container registry API responses for `/v2/library/*` paths
-- ✅ Docker containerization with multi-stage builds
+- ✅ Complete TUF repository with signed metadata and delegation
+- ✅ TUF client integration with path verification against delegated metadata
+- ✅ Real TUF-based authorization (replaces static responses)
+- ✅ `/v2/library/*` paths allowed via TUF delegation to `registry-library` role
+- ✅ All other paths denied with cryptographic verification
+- ✅ nginx auth_request integration with proper 403 responses
+- ✅ Docker containerization with TUF repository data
 - ✅ Complete end-to-end verification
 
-### Verification Script
+### Quick Verification
 
-Run the automated verification:
+Run the automated system verification:
 ```bash
-./scripts/verify-phase1.sh
+./scripts/verify-system.sh
 ```
 
-## Quick Start
+## Development Setup
+
+⚠️ **Important**: The TUF repository contains cryptographic keys and is not committed to version control.
+
+**See [DEVELOPMENT.md](DEVELOPMENT.md) for complete setup instructions.**
+
+### Quick Start
 
 ### Prerequisites
 
 - Docker and Docker Compose
 - Go 1.21+ (for local development)
+- jq (for JSON processing in verification scripts)
 
 ### Running with Docker Compose
 
@@ -37,18 +46,32 @@ git clone <repository-url>
 cd tuf-client-verify
 ```
 
-2. Start the services:
+2. Generate the TUF repository (required):
 ```bash
-docker-compose up --build
+go run scripts/generate-tuf-repo.go
 ```
 
-3. Test the setup:
+3. Start the services:
 ```bash
-# Test successful auth (should return 200 + JSON manifest)
+docker-compose up --build -d
+```
+
+4. Verify the system:
+```bash
+./scripts/verify-system.sh
+```
+
+### Manual Testing
+
+```bash
+# Test allowed path (should return 200 + JSON manifest)
 curl -v http://localhost/v2/library/alpine/manifests/latest
 
-# Test successful auth (should return 200 + JSON manifest)
-curl -v http://localhost/v2/library/ubuntu/manifests/20.04
+# Test denied path (should return 403 Forbidden)
+curl -v http://localhost/v2/redis/manifests/latest
+
+# Check TUF delegation configuration
+curl -s http://localhost:8080/debug | jq .
 
 # Test successful auth (should return 200 + JSON manifest)
 curl -v http://localhost/v2/library/nginx/manifests/latest
